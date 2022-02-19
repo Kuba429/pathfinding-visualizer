@@ -1,7 +1,6 @@
-import { Cell } from "./Cell";
-import { Grid } from "./Grid";
+import { Wrapper } from "./Wrapper";
 import "./styles/index.scss";
 
-export const grid = new Grid();
-grid.draw();
-console.log(grid.grid);
+export const a = new Wrapper();
+a.draw();
+console.log(a.grid);

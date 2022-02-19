@@ -1,4 +1,4 @@
-import { grid } from "./main";
+import { a } from "./main";
 
 export class Cell {
 	x: number;
@@ -23,16 +23,16 @@ export class Cell {
 	get neighbors() {
 		const neighbors = [];
 		if (this.x > 0) {
-			neighbors.push(grid.grid[this.x - 1][this.y]);
+			neighbors.push(a.grid[this.x - 1][this.y]);
 		}
-		if (this.x < grid.rows) {
-			neighbors.push(grid.grid[this.x + 1][this.y]);
+		if (this.x < a.rows) {
+			neighbors.push(a.grid[this.x + 1][this.y]);
 		}
 		if (this.y > 0) {
-			neighbors.push(grid.grid[this.x][this.y - 1]);
+			neighbors.push(a.grid[this.x][this.y - 1]);
 		}
-		if (this.y < grid.rows) {
-			neighbors.push(grid.grid[this.x][this.y + 1]);
+		if (this.y < a.rows) {
+			neighbors.push(a.grid[this.x][this.y + 1]);
 		}
 
 		return neighbors;

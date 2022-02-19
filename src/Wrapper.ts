@@ -1,6 +1,6 @@
 import { Cell } from "./Cell";
 
-export class Grid {
+export class Wrapper {
 	ctx;
 	canvas: HTMLCanvasElement;
 	rows: number;
