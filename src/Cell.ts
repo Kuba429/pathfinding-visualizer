@@ -37,4 +37,8 @@ export class Cell {
 
 		return neighbors;
 	}
+	draw() {
+		a.ctx.fillStyle = this.color;
+		a.ctx.fillRect(this.x, this.y, a.cellSize, a.cellSize);
+	}
 }
