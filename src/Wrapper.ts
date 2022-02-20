@@ -33,6 +33,7 @@ export class Wrapper {
 			cell.color = "#0000ff";
 			this.start.color = "#ffffff";
 			this.start = cell;
+			this.start.isWall = false;
 			this.openSet = [this.start];
 		}
 		this.draw();
@@ -42,7 +43,20 @@ export class Wrapper {
 			cell.color = "#0000ff";
 			this.target.color = "#ffffff";
 			this.target = cell;
+			this.target.isWall = false;
 		}
+		this.draw();
+	}
+	reset() {
+		if (this.interval) return;
+		let tempStart = { x: this.start.x, y: this.start.y };
+		let tempDestination = { x: this.target.x, y: this.target.y };
+		this.grid = this.setupGrid();
+		this.start = this.grid[tempStart.x][tempStart.y];
+		this.target = this.grid[tempDestination.x][tempDestination.y];
+		this.start.color = "#0000ff";
+		a.target.color = "#0000ff";
+		this.openSet = [this.start];
 		this.draw();
 	}
 	algo() {

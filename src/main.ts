@@ -8,18 +8,11 @@ const wallRadio: HTMLInputElement = document.querySelector("#wallRadio")!;
 const form: HTMLFormElement = document.querySelector("#mainForm")!;
 a.draw();
 startButton?.addEventListener("click", () => {
+	if (a.interval) return;
 	a.interval = requestAnimationFrame(a.mainLoop);
 });
 resetButton?.addEventListener("click", () => {
-	let tempStart = { x: a.start.x, y: a.start.y };
-	let tempDestination = { x: a.target.x, y: a.target.y };
-	a.grid = a.setupGrid();
-	a.start = a.grid[tempStart.x][tempStart.y];
-	a.target = a.grid[tempDestination.x][tempDestination.y];
-	a.start.color = "#0000ff";
-	a.target.color = "#0000ff";
-	a.openSet = [a.start];
-	a.draw();
+	a.reset();
 });
 canvas.addEventListener("mousedown", (e) => {
 	const x = Math.floor(e.offsetX / a.cellSize);
@@ -34,11 +27,7 @@ canvas.addEventListener("mousedown", (e) => {
 		case "startPoint":
 			a.newStartPoint(a.grid[x][y]);
 		case "destination":
-			if (a.grid[x][y] != a.start) {
-				a.target.color = "#ffffff";
-				a.target = a.grid[x][y];
-				a.target.color = "#0000ff";
-			}
+			a.newDestination(a.grid[x][y]);
 			break;
 	}
 
