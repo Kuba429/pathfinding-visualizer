@@ -1,4 +1,5 @@
 import { Cell } from "./Cell";
+import { color } from "./ColorHelper";
 import { a } from "./main";
 
 export class Wrapper {
@@ -12,6 +13,7 @@ export class Wrapper {
 	openSet: Array<Cell>;
 	closedSet: Array<Cell>;
 	interval: any; // must be any from lack of better type
+	canModify: boolean;
 	constructor() {
 		const canvas = document.querySelector("canvas")!;
 		this.canvas = canvas;
@@ -20,18 +22,19 @@ export class Wrapper {
 		this.cellSize = canvas.height / this.rows;
 		this.grid = this.setupGrid();
 		this.start = this.grid[0][0];
-		this.start.color = "#0000ff";
+		this.start.color = color.start;
 		this.target = this.grid[this.rows - 1][this.rows - 1];
-		this.target.color = "#0000ff";
+		this.target.color = color.end;
 		this.openSet = [this.start];
 		this.closedSet = [];
 		this.interval = null;
+		this.canModify = true;
 		this.drawGrid();
 	}
 	newStartPoint(cell: Cell) {
 		if (cell != this.target) {
-			cell.color = "#0000ff";
-			this.start.color = "#ffffff";
+			cell.color = color.start;
+			this.start.color = color.blank;
 			this.start = cell;
 			this.start.isWall = false;
 			this.openSet = [this.start];
@@ -40,24 +43,22 @@ export class Wrapper {
 	}
 	newDestination(cell: Cell) {
 		if (cell != this.start) {
-			cell.color = "#0000ff";
-			this.target.color = "#ffffff";
+			cell.color = color.end;
+			this.target.color = color.blank;
 			this.target = cell;
 			this.target.isWall = false;
 		}
 		this.draw();
 	}
 	reset() {
-		if (this.interval) return;
+		cancelAnimationFrame(this.interval);
+		this.interval = null;
 		let tempStart = { x: this.start.x, y: this.start.y };
 		let tempDestination = { x: this.target.x, y: this.target.y };
 		this.grid = this.setupGrid();
-		this.start = this.grid[tempStart.x][tempStart.y];
-		this.target = this.grid[tempDestination.x][tempDestination.y];
-		this.start.color = "#0000ff";
-		a.target.color = "#0000ff";
-		this.openSet = [this.start];
-		this.draw();
+		this.newStartPoint(this.grid[tempStart.x][tempStart.y]);
+		this.newDestination(this.grid[tempDestination.x][tempDestination.y]);
+		this.canModify = true;
 	}
 	algo() {
 		if (this.openSet.length > 0) {
@@ -78,7 +79,7 @@ export class Wrapper {
 			this.closedSet.push(current);
 
 			if (current != this.target && current != this.start) {
-				current.color = "#ff0000";
+				current.color = color.closedSet;
 			}
 			current.neighbors.forEach((neighbor) => {
 				if (!this.closedSet.includes(neighbor)) {
@@ -91,7 +92,7 @@ export class Wrapper {
 						neighbor.g = tempG;
 						this.openSet.push(neighbor);
 						if (neighbor != this.target && neighbor != this.start) {
-							neighbor.color = "#00ff00";
+							neighbor.color = color.openSet;
 						}
 					}
 					neighbor.previous = current;
@@ -103,7 +104,7 @@ export class Wrapper {
 	}
 	recreatePath(current: Cell) {
 		if (current != this.target && current != this.start)
-			current.color = "#0000ff";
+			current.color = color.path;
 		current.draw();
 		current.previous &&
 			requestAnimationFrame(() => {

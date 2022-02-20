@@ -8,7 +8,8 @@ const wallRadio: HTMLInputElement = document.querySelector("#wallRadio")!;
 const form: HTMLFormElement = document.querySelector("#mainForm")!;
 a.draw();
 startButton?.addEventListener("click", () => {
-	if (a.interval) return;
+	if (!a.canModify) return;
+	a.canModify = false;
 	a.interval = requestAnimationFrame(a.mainLoop);
 });
 resetButton?.addEventListener("click", () => {
@@ -16,6 +17,7 @@ resetButton?.addEventListener("click", () => {
 });
 
 canvas.addEventListener("mousedown", (e) => {
+	if (!a.canModify) return;
 	const data = new FormData(form);
 	const object = data.get("object");
 	// if (object != "startPoint" && object != "destination") return;
@@ -49,6 +51,7 @@ document.addEventListener("mouseup", () => {
 	mouseIsDown = false;
 });
 canvas.addEventListener("mousemove", (e) => {
+	if (!a.canModify) return;
 	const data = new FormData(form);
 	const object = data.get("object");
 	if (object != "wall" && object != "eraseWall") return;
@@ -63,8 +66,7 @@ canvas.addEventListener("mousemove", (e) => {
 			break;
 		case "eraseWall":
 			if (a.grid[x][y].isWall) {
-				a.grid[x][y].isWall = false;
-				a.grid[x][y].color = "#ffffff";
+				a.grid[x][y].makeNotWall();
 			}
 			break;
 	}

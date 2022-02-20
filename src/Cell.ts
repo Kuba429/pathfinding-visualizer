@@ -1,3 +1,4 @@
+import { color } from "./ColorHelper";
 import { a } from "./main";
 
 export class Cell {
@@ -12,7 +13,7 @@ export class Cell {
 		this.y = y;
 		this.g = 0;
 		this.isWall = false;
-		this.color = "#ffffff";
+		this.color = color.blank;
 		this.previous = null;
 	}
 	get f(): number {
@@ -46,11 +47,11 @@ export class Cell {
 	}
 	makeWall() {
 		this.isWall = true;
-		this.color = "#000000";
+		this.color = color.wall;
 	}
 	makeNotWall() {
 		this.isWall = false;
-		this.color = "#ffffff";
+		this.color = color.blank;
 	}
 	draw() {
 		a.ctx.fillStyle = this.color;
