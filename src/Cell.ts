@@ -44,14 +44,13 @@ export class Cell {
 
 		return neighbors;
 	}
-	toggleWall() {
-		if (this.isWall) {
-			this.isWall = false;
-			this.color = "#ffffff";
-		} else {
-			this.isWall = true;
-			this.color = "#000000";
-		}
+	makeWall() {
+		this.isWall = true;
+		this.color = "#000000";
+	}
+	makeNotWall() {
+		this.isWall = false;
+		this.color = "#ffffff";
 	}
 	draw() {
 		a.ctx.fillStyle = this.color;

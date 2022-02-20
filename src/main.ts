@@ -14,23 +14,59 @@ startButton?.addEventListener("click", () => {
 resetButton?.addEventListener("click", () => {
 	a.reset();
 });
+
 canvas.addEventListener("mousedown", (e) => {
+	const data = new FormData(form);
+	const object = data.get("object");
+	// if (object != "startPoint" && object != "destination") return;
 	const x = Math.floor(e.offsetX / a.cellSize);
 	const y = Math.floor(e.offsetY / a.cellSize);
-	const data = new FormData(form);
-	switch (data.get("object")) {
-		case "wall":
-			if (a.grid[x][y] != a.start && a.grid[x][y] != a.target) {
-				a.grid[x][y].toggleWall();
-			}
-			break;
+	switch (object) {
 		case "startPoint":
 			a.newStartPoint(a.grid[x][y]);
+			wallRadio.checked = true;
+			break;
 		case "destination":
 			a.newDestination(a.grid[x][y]);
+			wallRadio.checked = true;
+			break;
+		case "wall":
+			a.grid[x][y].makeWall();
+			break;
+		case "eraseWall":
+			a.grid[x][y].makeNotWall();
 			break;
 	}
-
 	a.draw();
-	wallRadio.checked = true;
+});
+// smooth drawing walls
+// can't apply smooth drawing to every option because it doesn't work with regular clicking
+let mouseIsDown: boolean = false;
+canvas.addEventListener("mousedown", () => {
+	mouseIsDown = true;
+});
+canvas.addEventListener("mouseup", () => {
+	mouseIsDown = false;
+});
+canvas.addEventListener("mousemove", (e) => {
+	const data = new FormData(form);
+	const object = data.get("object");
+	if (object != "wall" && object != "eraseWall") return;
+	if (!mouseIsDown) return;
+	const x = Math.floor(e.offsetX / a.cellSize);
+	const y = Math.floor(e.offsetY / a.cellSize);
+	switch (object) {
+		case "wall":
+			if (a.grid[x][y] != a.start && a.grid[x][y] != a.target) {
+				a.grid[x][y].makeWall();
+			}
+			break;
+		case "eraseWall":
+			if (a.grid[x][y].isWall) {
+				a.grid[x][y].isWall = false;
+				a.grid[x][y].color = "#ffffff";
+			}
+			break;
+	}
+	a.draw();
 });
