@@ -96,10 +96,10 @@ export class Cell {
 	draw() {
 		a.ctx.fillStyle = this.color;
 		a.ctx.fillRect(
-			this.x * a.cellSize,
-			this.y * a.cellSize,
-			a.cellSize,
-			a.cellSize
+			this.x * a.cellSize + 0.5,
+			this.y * a.cellSize + 0.5,
+			a.cellSize - 1,
+			a.cellSize - 1
 		);
 	}
 }

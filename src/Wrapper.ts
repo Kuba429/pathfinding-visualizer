@@ -6,7 +6,6 @@ export class Wrapper {
 	ctx;
 	canvas: HTMLCanvasElement;
 	rows: number;
-	cellSize: number;
 	grid: Array<Array<Cell>>;
 	start: Cell;
 	target: Cell;
@@ -20,7 +19,6 @@ export class Wrapper {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext("2d")!;
 		this.rows = 30;
-		this.cellSize = canvas.height / this.rows;
 		this.grid = this.setupGrid();
 		this.start = this.grid[0][0];
 		this.start.color = color.start;
@@ -31,7 +29,9 @@ export class Wrapper {
 		this.allowDiagonals = diagonalsCheckbox.checked;
 		this.interval = null;
 		this.canModify = true;
-		this.drawGrid();
+	}
+	get cellSize() {
+		return this.canvas.height / this.rows;
 	}
 	newStartPoint(cell: Cell) {
 		if (cell != this.target) {
@@ -55,11 +55,9 @@ export class Wrapper {
 	reset() {
 		cancelAnimationFrame(this.interval);
 		this.interval = null;
-		let tempStart = { x: this.start.x, y: this.start.y };
-		let tempDestination = { x: this.target.x, y: this.target.y };
 		this.grid = this.setupGrid();
-		this.newStartPoint(this.grid[tempStart.x][tempStart.y]);
-		this.newDestination(this.grid[tempDestination.x][tempDestination.y]);
+		this.newStartPoint(this.grid[0][0]);
+		this.newDestination(this.grid[this.rows - 1][this.rows - 1]);
 		this.canModify = true;
 	}
 	algo() {
@@ -128,21 +126,11 @@ export class Wrapper {
 	}
 	draw() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.ctx.fillStyle = color.grid;
+		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.width);
 		this.grid.flat().forEach((cell) => {
 			cell.draw();
 		});
-		this.drawGrid();
-	}
-	drawGrid() {
-		this.ctx.strokeStyle = "#000000";
-		for (let i = 0; i <= this.rows; i++) {
-			this.ctx.moveTo(0, i * this.cellSize);
-			this.ctx.lineTo(this.canvas!.width, i * this.cellSize);
-
-			this.ctx.moveTo(i * this.cellSize, 0);
-			this.ctx.lineTo(i * this.cellSize, this.canvas.height);
-		}
-		this.ctx.stroke();
 	}
 
 	setupGrid(): Array<Array<Cell>> {

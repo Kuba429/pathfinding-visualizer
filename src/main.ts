@@ -7,6 +7,8 @@ const randomWallsButton = document.querySelector("#randomWalls");
 const canvas = document.querySelector("canvas")!;
 const wallRadio: HTMLInputElement = document.querySelector("#wallRadio")!;
 const form: HTMLFormElement = document.querySelector("#mainForm")!;
+const gridSizeRange: HTMLInputElement =
+	document.querySelector("#gridSizeRange")!;
 export const diagonalsCheckbox: HTMLInputElement =
 	document.querySelector("#diagonalsCheckbox")!;
 //initialization & listeners
@@ -27,6 +29,14 @@ randomWallsButton?.addEventListener("click", () => {
 diagonalsCheckbox?.addEventListener("input", (e) => {
 	if (!a.canModify) return;
 	a.allowDiagonals = (<HTMLInputElement>e.target).checked;
+});
+gridSizeRange?.addEventListener("input", (e) => {
+	if (!a.canModify) return;
+	const value = parseInt((<HTMLInputElement>e.target).value);
+	a.rows = value;
+	a.reset();
+	// a.ctx.clearRect(0, 0, canvas.width, canvas.height);
+	// a.draw();
 });
 canvas.addEventListener("mousedown", (e) => {
 	if (!a.canModify) return;

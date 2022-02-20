@@ -6,4 +6,5 @@ export const color = {
 	path: "#0000ff",
 	openSet: "#00ff00",
 	closedSet: "#ff0000",
+	grid: "#000000",
 };

@@ -13,7 +13,17 @@
 			<button id="resetButton">Reset</button>
 			<button id="randomWalls">Random Obsticles</button>
 			<form id="mainForm">
-				<div class="radioWrapper">
+				<div class="inputWrapper">
+					<label for="gridSizeRange">Grid Size</label>
+					<input
+						type="range"
+						min="5"
+						max="20"
+						value="15"
+						name="gridSize"
+						id="gridSizeRange" />
+				</div>
+				<div class="inputWrapper">
 					<label for="startRadio">Start point</label>
 					<input
 						type="radio"
@@ -21,7 +31,7 @@
 						name="object"
 						id="startRadio" />
 				</div>
-				<div class="radioWrapper">
+				<div class="inputWrapper">
 					<label for="destinationRadio">Destination</label>
 					<input
 						type="radio"
@@ -29,7 +39,7 @@
 						name="object"
 						id="destinationRadio" />
 				</div>
-				<div class="radioWrapper">
+				<div class="inputWrapper">
 					<label for="wallRadio">Wall</label>
 					<input
 						checked
@@ -39,7 +49,7 @@
 						id="wallRadio" />
 				</div>
 
-				<div class="radioWrapper">
+				<div class="inputWrapper">
 					<label for="wallRadio">Erase wall</label>
 					<input
 						type="radio"
