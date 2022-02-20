@@ -16,12 +16,13 @@ export class Wrapper {
 		const canvas = document.querySelector("canvas")!;
 		this.canvas = canvas;
 		this.ctx = canvas.getContext("2d")!;
-		this.rows = 10;
+		this.rows = 15;
 		this.cellSize = canvas.height / this.rows;
 		this.grid = this.setupGrid();
 		this.start = this.grid[0][0];
 		this.start.color = "#00ff00";
 		this.target = this.grid[this.rows - 1][this.rows - 1];
+		this.target.color = "#0000ff";
 		this.openSet = [this.start];
 		this.closedSet = [];
 		this.interval = requestAnimationFrame(this.mainLoop);
@@ -38,6 +39,23 @@ export class Wrapper {
 			if (this.openSet[lowest] == this.target) {
 				console.log("target found");
 			}
+			this.closedSet.push(this.openSet[lowest]);
+			let current = this.openSet.splice(lowest, 1)[0];
+			current.color = "#ff0000";
+			current.neighbors.forEach((neighbor) => {
+				if (!this.closedSet.includes(neighbor)) {
+					let tempG = current.g + 1;
+					if (this.openSet.includes(neighbor)) {
+						if (tempG < neighbor.g) {
+							neighbor.g = tempG;
+						}
+					} else {
+						neighbor.g = tempG;
+						this.openSet.push(neighbor);
+						neighbor.color = "#00ff00";
+					}
+				}
+			});
 		} else {
 			cancelAnimationFrame(this.interval);
 			this.interval = undefined;
@@ -50,15 +68,14 @@ export class Wrapper {
 		a.interval = requestAnimationFrame(a.mainLoop);
 	}
 	draw() {
-		this.drawGrid();
-		this.openSet.forEach((cell) => {
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.grid.flat().forEach((cell) => {
 			cell.draw();
 		});
+		this.drawGrid();
 	}
 	drawGrid() {
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.ctx.strokeStyle = "#000000";
-
 		for (let i = 0; i <= this.rows; i++) {
 			this.ctx.moveTo(0, i * this.cellSize);
 			this.ctx.lineTo(this.canvas!.width, i * this.cellSize);
