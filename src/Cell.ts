@@ -1,5 +1,6 @@
 import { color } from "./ColorHelper";
 import { a } from "./main";
+import { getDistance } from "./Wrapper";
 
 export class Cell {
 	x: number;
@@ -20,9 +21,7 @@ export class Cell {
 		return this.g + this.h;
 	}
 	get h() {
-		let addent1 = Math.pow(this.x - a.target.x, 2);
-		let addent2 = Math.pow(this.y - a.target.y, 2);
-		return Math.sqrt(addent1 + addent2);
+		return getDistance(this, a.target);
 	}
 	get neighbors() {
 		const neighbors: any = [];

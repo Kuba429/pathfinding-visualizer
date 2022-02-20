@@ -1,6 +1,6 @@
 import { Cell } from "./Cell";
 import { color } from "./ColorHelper";
-import { a, diagonalsCheckbox } from "./main";
+import { a, diagonalsCheckbox, gridSizeRange } from "./main";
 
 export class Wrapper {
 	ctx;
@@ -18,7 +18,7 @@ export class Wrapper {
 		const canvas = document.querySelector("canvas")!;
 		this.canvas = canvas;
 		this.ctx = canvas.getContext("2d")!;
-		this.rows = 30;
+		this.rows = parseInt(gridSizeRange.value);
 		this.grid = this.setupGrid();
 		this.start = this.grid[0][0];
 		this.start.color = color.start;
@@ -83,7 +83,7 @@ export class Wrapper {
 			}
 			current.neighbors.forEach((neighbor: any) => {
 				if (!this.closedSet.includes(neighbor)) {
-					let tempG = current.g + getGScore(current, neighbor);
+					let tempG = current.g + getDistance(current, neighbor);
 					if (this.openSet.includes(neighbor)) {
 						if (tempG < neighbor.g) {
 							neighbor.g = tempG;
@@ -160,10 +160,13 @@ export class Wrapper {
 		this.draw();
 	}
 }
-function getGScore(cell1: Cell, cell2: Cell): number {
-	if (cell1.x == cell2.x || cell1.y == cell2.y) {
-		return 10;
+export function getDistance(cell1: Cell, cell2: Cell): number {
+	console.log(a.allowDiagonals);
+	if (!diagonalsCheckbox.value) {
+		let addent1 = Math.pow(cell1.x - cell2.x, 2);
+		let addent2 = Math.pow(cell1.y - cell2.y, 2);
+		return Math.sqrt(addent1 + addent2);
 	} else {
-		return 14;
+		return Math.abs(cell1.x - cell2.x) + Math.abs(cell1.y - cell2.y);
 	}
 }

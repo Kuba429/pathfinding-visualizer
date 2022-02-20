@@ -7,7 +7,7 @@ const randomWallsButton = document.querySelector("#randomWalls");
 const canvas = document.querySelector("canvas")!;
 const wallRadio: HTMLInputElement = document.querySelector("#wallRadio")!;
 const form: HTMLFormElement = document.querySelector("#mainForm")!;
-const gridSizeRange: HTMLInputElement =
+export const gridSizeRange: HTMLInputElement =
 	document.querySelector("#gridSizeRange")!;
 export const diagonalsCheckbox: HTMLInputElement =
 	document.querySelector("#diagonalsCheckbox")!;
