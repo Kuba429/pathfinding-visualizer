@@ -4,12 +4,14 @@ export class Cell {
 	x: number;
 	y: number;
 	g: number;
+	isWall: boolean;
 	color: string;
 	previous: Cell | null;
 	constructor(x: number, y: number) {
 		this.x = x;
 		this.y = y;
 		this.g = 0;
+		this.isWall = false;
 		this.color = "#ffffff";
 		this.previous = null;
 	}
@@ -24,19 +26,32 @@ export class Cell {
 	get neighbors() {
 		const neighbors = [];
 		if (this.x > 0) {
-			neighbors.push(a.grid[this.x - 1][this.y]);
+			let cell = a.grid[this.x - 1][this.y];
+			!cell.isWall && neighbors.push(cell);
 		}
 		if (this.x < a.rows - 1) {
-			neighbors.push(a.grid[this.x + 1][this.y]);
+			let cell = a.grid[this.x + 1][this.y];
+			!cell.isWall && neighbors.push(cell);
 		}
 		if (this.y > 0) {
-			neighbors.push(a.grid[this.x][this.y - 1]);
+			let cell = a.grid[this.x][this.y - 1];
+			!cell.isWall && neighbors.push(cell);
 		}
 		if (this.y < a.rows - 1) {
-			neighbors.push(a.grid[this.x][this.y + 1]);
+			let cell = a.grid[this.x][this.y + 1];
+			!cell.isWall && neighbors.push(cell);
 		}
 
 		return neighbors;
+	}
+	toggleWall() {
+		if (this.isWall) {
+			this.isWall = false;
+			this.color = "#ffffff";
+		} else {
+			this.isWall = true;
+			this.color = "#000000";
+		}
 	}
 	draw() {
 		a.ctx.fillStyle = this.color;

@@ -9,6 +9,33 @@
 	<body>
 		<div id="app">
 			<button id="startButton">Start</button>
+			<form id="mainForm">
+				<div class="radioWrapper">
+					<label for="startRadio">Start point</label>
+					<input
+						type="radio"
+						value="startPoint"
+						name="object"
+						id="startRadio" />
+				</div>
+				<div class="radioWrapper">
+					<label for="destinationRadio">Destination</label>
+					<input
+						type="radio"
+						value="destination"
+						name="object"
+						id="destinationRadio" />
+				</div>
+				<div class="radioWrapper">
+					<label for="wallRadio">Wall</label>
+					<input
+						checked
+						type="radio"
+						value="wall"
+						name="object"
+						id="wallRadio" />
+				</div>
+			</form>
 			<canvas width="500" height="500"></canvas>
 		</div>
 		<script type="module" src="/src/main.ts"></script>

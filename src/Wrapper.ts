@@ -16,7 +16,7 @@ export class Wrapper {
 		const canvas = document.querySelector("canvas")!;
 		this.canvas = canvas;
 		this.ctx = canvas.getContext("2d")!;
-		this.rows = 15;
+		this.rows = 20;
 		this.cellSize = canvas.height / this.rows;
 		this.grid = this.setupGrid();
 		this.start = this.grid[0][0];
@@ -73,7 +73,7 @@ export class Wrapper {
 	}
 	recreatePath(current: Cell) {
 		if (current != this.target && current != this.start)
-			current.color = "#000000";
+			current.color = "#0000ff";
 		current.draw();
 		current.previous &&
 			requestAnimationFrame(() => {
