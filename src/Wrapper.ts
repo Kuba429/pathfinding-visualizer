@@ -19,7 +19,7 @@ export class Wrapper {
 		const canvas = document.querySelector("canvas")!;
 		this.canvas = canvas;
 		this.ctx = canvas.getContext("2d")!;
-		this.rows = 10;
+		this.rows = 30;
 		this.cellSize = canvas.height / this.rows;
 		this.grid = this.setupGrid();
 		this.start = this.grid[0][0];
@@ -154,6 +154,22 @@ export class Wrapper {
 			}
 		}
 		return array;
+	}
+	setRandomWalls() {
+		this.reset();
+		const allCells = this.grid.flat();
+		const wallPercentage = 0.35;
+		const amountOfWalls = Math.round(allCells.length * wallPercentage);
+		for (let i = 0; i < amountOfWalls; i++) {
+			const r1 = Math.floor(Math.random() * this.rows - 1) + 1;
+			const r2 = Math.floor(Math.random() * this.rows - 1) + 1;
+			if (a.grid[r1][r2] != this.start && a.grid[r1][r2] != this.target) {
+				a.grid[r1][r2].makeWall();
+			} else {
+				i++;
+			}
+		}
+		this.draw();
 	}
 }
 function getGScore(cell1: Cell, cell2: Cell): number {

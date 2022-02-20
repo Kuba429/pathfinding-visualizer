@@ -3,6 +3,7 @@ import "./styles/index.scss";
 //dom elements
 const startButton = document.querySelector("#startButton");
 const resetButton = document.querySelector("#resetButton");
+const randomWallsButton = document.querySelector("#randomWalls");
 const canvas = document.querySelector("canvas")!;
 const wallRadio: HTMLInputElement = document.querySelector("#wallRadio")!;
 const form: HTMLFormElement = document.querySelector("#mainForm")!;
@@ -19,7 +20,12 @@ startButton?.addEventListener("click", () => {
 resetButton?.addEventListener("click", () => {
 	a.reset();
 });
+randomWallsButton?.addEventListener("click", () => {
+	if (!a.canModify) return;
+	a.setRandomWalls();
+});
 diagonalsCheckbox?.addEventListener("input", (e) => {
+	if (!a.canModify) return;
 	a.allowDiagonals = (<HTMLInputElement>e.target).checked;
 });
 canvas.addEventListener("mousedown", (e) => {
