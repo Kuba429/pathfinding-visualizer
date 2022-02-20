@@ -20,12 +20,13 @@ export class Wrapper {
 		this.cellSize = canvas.height / this.rows;
 		this.grid = this.setupGrid();
 		this.start = this.grid[0][0];
-		this.start.color = "#00ff00";
+		this.start.color = "#0000ff";
 		this.target = this.grid[this.rows - 1][this.rows - 1];
 		this.target.color = "#0000ff";
 		this.openSet = [this.start];
 		this.closedSet = [];
-		this.interval = requestAnimationFrame(this.mainLoop);
+		this.interval = null;
+		this.drawGrid();
 	}
 
 	algo() {
@@ -38,9 +39,11 @@ export class Wrapper {
 			}
 			if (this.openSet[lowest] == this.target) {
 				console.log("target found");
+				this.stop();
 			}
-			this.closedSet.push(this.openSet[lowest]);
+
 			let current = this.openSet.splice(lowest, 1)[0];
+			this.closedSet.push(current);
 			current.color = "#ff0000";
 			current.neighbors.forEach((neighbor) => {
 				if (!this.closedSet.includes(neighbor)) {
@@ -54,18 +57,34 @@ export class Wrapper {
 						this.openSet.push(neighbor);
 						neighbor.color = "#00ff00";
 					}
+					neighbor.previous = current;
 				}
 			});
 		} else {
-			cancelAnimationFrame(this.interval);
-			this.interval = undefined;
+			this.stop();
 		}
+	}
+	recreatePath() {
+		this.target.color = "#000000";
+		this.target.draw();
+		let current = this.target;
+		while (current.previous) {
+			current.color = "#000000";
+			current.draw();
+			current = current.previous;
+		}
+	}
+	stop() {
+		cancelAnimationFrame(this.interval);
+		this.interval = null;
 	}
 	mainLoop() {
 		//functions passed to requestAnimationFrame can't read 'this' so must pass an actual object
 		a.algo();
 		a.draw();
-		a.interval = requestAnimationFrame(a.mainLoop);
+		if (a.interval) {
+			a.interval = requestAnimationFrame(a.mainLoop);
+		}
 	}
 	draw() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
