@@ -42,10 +42,10 @@ canvas.addEventListener("mousedown", (e) => {
 // smooth drawing walls
 // can't apply smooth drawing to every option because it doesn't work with regular clicking
 let mouseIsDown: boolean = false;
-canvas.addEventListener("mousedown", () => {
+document.addEventListener("mousedown", () => {
 	mouseIsDown = true;
 });
-canvas.addEventListener("mouseup", () => {
+document.addEventListener("mouseup", () => {
 	mouseIsDown = false;
 });
 canvas.addEventListener("mousemove", (e) => {
