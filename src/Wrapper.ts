@@ -40,11 +40,16 @@ export class Wrapper {
 			if (this.openSet[lowest] == this.target) {
 				console.log("target found");
 				this.stop();
+
+				this.recreatePath(this.target);
 			}
 
 			let current = this.openSet.splice(lowest, 1)[0];
 			this.closedSet.push(current);
-			current.color = "#ff0000";
+
+			if (current != this.target && current != this.start) {
+				current.color = "#ff0000";
+			}
 			current.neighbors.forEach((neighbor) => {
 				if (!this.closedSet.includes(neighbor)) {
 					let tempG = current.g + 1;
@@ -55,7 +60,9 @@ export class Wrapper {
 					} else {
 						neighbor.g = tempG;
 						this.openSet.push(neighbor);
-						neighbor.color = "#00ff00";
+						if (neighbor != this.target && neighbor != this.start) {
+							neighbor.color = "#00ff00";
+						}
 					}
 					neighbor.previous = current;
 				}
@@ -64,15 +71,14 @@ export class Wrapper {
 			this.stop();
 		}
 	}
-	recreatePath() {
-		this.target.color = "#000000";
-		this.target.draw();
-		let current = this.target;
-		while (current.previous) {
+	recreatePath(current: Cell) {
+		if (current != this.target && current != this.start)
 			current.color = "#000000";
-			current.draw();
-			current = current.previous;
-		}
+		current.draw();
+		current.previous &&
+			requestAnimationFrame(() => {
+				this.recreatePath(current.previous!);
+			});
 	}
 	stop() {
 		cancelAnimationFrame(this.interval);
