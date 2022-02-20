@@ -28,7 +28,23 @@ export class Wrapper {
 		this.interval = null;
 		this.drawGrid();
 	}
-
+	newStartPoint(cell: Cell) {
+		if (cell != this.target) {
+			cell.color = "#0000ff";
+			this.start.color = "#ffffff";
+			this.start = cell;
+			this.openSet = [this.start];
+		}
+		this.draw();
+	}
+	newDestination(cell: Cell) {
+		if (cell != this.start) {
+			cell.color = "#0000ff";
+			this.target.color = "#ffffff";
+			this.target = cell;
+		}
+		this.draw();
+	}
 	algo() {
 		if (this.openSet.length > 0) {
 			let lowest = 0;
