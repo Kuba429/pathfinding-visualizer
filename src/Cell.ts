@@ -25,7 +25,7 @@ export class Cell {
 		return Math.sqrt(addent1 + addent2);
 	}
 	get neighbors() {
-		const neighbors = [];
+		const neighbors: any = [];
 
 		let potentialNeighbors = [
 			{ x: this.x + 1, y: this.y },
@@ -47,41 +47,6 @@ export class Cell {
 				!neighbor.isWall && neighbors.push(neighbor);
 			}
 		});
-
-		if (this.x > 0) {
-			let cell = a.grid[this.x - 1][this.y];
-			!cell.isWall && neighbors.push(cell);
-		}
-		if (this.x < a.rows - 1) {
-			let cell = a.grid[this.x + 1][this.y];
-			!cell.isWall && neighbors.push(cell);
-		}
-		if (this.y > 0) {
-			let cell = a.grid[this.x][this.y - 1];
-			!cell.isWall && neighbors.push(cell);
-		}
-		if (this.y < a.rows - 1) {
-			let cell = a.grid[this.x][this.y + 1];
-			!cell.isWall && neighbors.push(cell);
-		}
-
-		// diagonals
-		// if (this.x > 0 && this.y > 0) {
-		// 	let cell = a.grid[this.x - 1][this.y - 1];
-		// 	!cell.isWall && neighbors.push(cell);
-		// }
-		// if (this.x < a.rows - 1 && this.y > 0) {
-		// 	let cell = a.grid[this.x + 1][this.y - 1];
-		// 	!cell.isWall && neighbors.push(cell);
-		// }
-		// if (this.x > 0 && this.y < a.rows - 1) {
-		// 	let cell = a.grid[this.x - 1][this.y + 1];
-		// 	!cell.isWall && neighbors.push(cell);
-		// }
-		// if (this.x > a.rows - 1 && this.y < a.rows - 1) {
-		// 	let cell = a.grid[this.x + 1][this.y + 1];
-		// 	!cell.isWall && neighbors.push(cell);
-		// }
 
 		return neighbors;
 	}

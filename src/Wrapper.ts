@@ -81,7 +81,7 @@ export class Wrapper {
 			if (current != this.target && current != this.start) {
 				current.color = color.closedSet;
 			}
-			current.neighbors.forEach((neighbor) => {
+			current.neighbors.forEach((neighbor: any) => {
 				if (!this.closedSet.includes(neighbor)) {
 					let tempG = current.g + getGScore(current, neighbor);
 					if (this.openSet.includes(neighbor)) {
