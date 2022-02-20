@@ -18,7 +18,7 @@ export class Wrapper {
 		const canvas = document.querySelector("canvas")!;
 		this.canvas = canvas;
 		this.ctx = canvas.getContext("2d")!;
-		this.rows = 20;
+		this.rows = 5;
 		this.cellSize = canvas.height / this.rows;
 		this.grid = this.setupGrid();
 		this.start = this.grid[0][0];
@@ -83,7 +83,7 @@ export class Wrapper {
 			}
 			current.neighbors.forEach((neighbor) => {
 				if (!this.closedSet.includes(neighbor)) {
-					let tempG = current.g + 1;
+					let tempG = current.g + getGScore(current, neighbor);
 					if (this.openSet.includes(neighbor)) {
 						if (tempG < neighbor.g) {
 							neighbor.g = tempG;
@@ -151,5 +151,12 @@ export class Wrapper {
 			}
 		}
 		return array;
+	}
+}
+function getGScore(cell1: Cell, cell2: Cell): number {
+	if (cell1.x == cell2.x || cell1.y == cell2.y) {
+		return 10;
+	} else {
+		return 14;
 	}
 }
