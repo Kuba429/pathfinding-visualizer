@@ -161,7 +161,6 @@ export class Wrapper {
 	}
 }
 export function getDistance(cell1: Cell, cell2: Cell): number {
-	console.log(a.allowDiagonals);
 	if (!diagonalsCheckbox.value) {
 		let addent1 = Math.pow(cell1.x - cell2.x, 2);
 		let addent2 = Math.pow(cell1.y - cell2.y, 2);
