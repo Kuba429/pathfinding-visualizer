@@ -18,7 +18,7 @@ export class Wrapper {
 		const canvas = document.querySelector("canvas")!;
 		this.canvas = canvas;
 		this.ctx = canvas.getContext("2d")!;
-		this.rows = 5;
+		this.rows = 10;
 		this.cellSize = canvas.height / this.rows;
 		this.grid = this.setupGrid();
 		this.start = this.grid[0][0];
@@ -87,15 +87,16 @@ export class Wrapper {
 					if (this.openSet.includes(neighbor)) {
 						if (tempG < neighbor.g) {
 							neighbor.g = tempG;
+							neighbor.previous = current;
 						}
 					} else {
 						neighbor.g = tempG;
+						neighbor.previous = current;
 						this.openSet.push(neighbor);
 						if (neighbor != this.target && neighbor != this.start) {
 							neighbor.color = color.openSet;
 						}
 					}
-					neighbor.previous = current;
 				}
 			});
 		} else {
