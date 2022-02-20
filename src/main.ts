@@ -1,11 +1,15 @@
 import { Wrapper } from "./Wrapper";
 import "./styles/index.scss";
-export const a = new Wrapper();
+//dom elements
 const startButton = document.querySelector("#startButton");
 const resetButton = document.querySelector("#resetButton");
-const canvas = a.canvas;
+const canvas = document.querySelector("canvas")!;
 const wallRadio: HTMLInputElement = document.querySelector("#wallRadio")!;
 const form: HTMLFormElement = document.querySelector("#mainForm")!;
+export const diagonalsCheckbox: HTMLInputElement =
+	document.querySelector("#diagonalsCheckbox")!;
+//initialization & listeners
+export const a = new Wrapper();
 a.draw();
 startButton?.addEventListener("click", () => {
 	if (!a.canModify) return;
@@ -15,7 +19,9 @@ startButton?.addEventListener("click", () => {
 resetButton?.addEventListener("click", () => {
 	a.reset();
 });
-
+diagonalsCheckbox?.addEventListener("input", (e) => {
+	a.allowDiagonals = (<HTMLInputElement>e.target).checked;
+});
 canvas.addEventListener("mousedown", (e) => {
 	if (!a.canModify) return;
 	const data = new FormData(form);

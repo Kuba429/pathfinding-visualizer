@@ -26,6 +26,28 @@ export class Cell {
 	}
 	get neighbors() {
 		const neighbors = [];
+
+		let potentialNeighbors = [
+			{ x: this.x + 1, y: this.y },
+			{ x: this.x - 1, y: this.y },
+			{ x: this.x, y: this.y + 1 },
+			{ x: this.x, y: this.y - 1 },
+		];
+		const diagonals = [
+			{ x: this.x + 1, y: this.y + 1 },
+			{ x: this.x + 1, y: this.y - 1 },
+			{ x: this.x - 1, y: this.y + 1 },
+			{ x: this.x - 1, y: this.y - 1 },
+		];
+		if (a.allowDiagonals)
+			potentialNeighbors = potentialNeighbors.concat(diagonals);
+		potentialNeighbors.forEach((cell) => {
+			if (a.grid[cell.x] && a.grid[cell.x][cell.y]) {
+				let neighbor = a.grid[cell.x][cell.y];
+				!neighbor.isWall && neighbors.push(neighbor);
+			}
+		});
+
 		if (this.x > 0) {
 			let cell = a.grid[this.x - 1][this.y];
 			!cell.isWall && neighbors.push(cell);
@@ -42,6 +64,24 @@ export class Cell {
 			let cell = a.grid[this.x][this.y + 1];
 			!cell.isWall && neighbors.push(cell);
 		}
+
+		// diagonals
+		// if (this.x > 0 && this.y > 0) {
+		// 	let cell = a.grid[this.x - 1][this.y - 1];
+		// 	!cell.isWall && neighbors.push(cell);
+		// }
+		// if (this.x < a.rows - 1 && this.y > 0) {
+		// 	let cell = a.grid[this.x + 1][this.y - 1];
+		// 	!cell.isWall && neighbors.push(cell);
+		// }
+		// if (this.x > 0 && this.y < a.rows - 1) {
+		// 	let cell = a.grid[this.x - 1][this.y + 1];
+		// 	!cell.isWall && neighbors.push(cell);
+		// }
+		// if (this.x > a.rows - 1 && this.y < a.rows - 1) {
+		// 	let cell = a.grid[this.x + 1][this.y + 1];
+		// 	!cell.isWall && neighbors.push(cell);
+		// }
 
 		return neighbors;
 	}

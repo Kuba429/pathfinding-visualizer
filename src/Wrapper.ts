@@ -1,6 +1,6 @@
 import { Cell } from "./Cell";
 import { color } from "./ColorHelper";
-import { a } from "./main";
+import { a, diagonalsCheckbox } from "./main";
 
 export class Wrapper {
 	ctx;
@@ -12,6 +12,7 @@ export class Wrapper {
 	target: Cell;
 	openSet: Array<Cell>;
 	closedSet: Array<Cell>;
+	allowDiagonals: boolean;
 	interval: any; // must be any from lack of better type
 	canModify: boolean;
 	constructor() {
@@ -27,6 +28,7 @@ export class Wrapper {
 		this.target.color = color.end;
 		this.openSet = [this.start];
 		this.closedSet = [];
+		this.allowDiagonals = diagonalsCheckbox.checked;
 		this.interval = null;
 		this.canModify = true;
 		this.drawGrid();
