@@ -4,6 +4,7 @@ export const a = new Wrapper();
 const startButton = document.querySelector("#startButton");
 const resetButton = document.querySelector("#resetButton");
 const canvas = a.canvas;
+const wallRadio: HTMLInputElement = document.querySelector("#wallRadio")!;
 const form: HTMLFormElement = document.querySelector("#mainForm")!;
 a.draw();
 startButton?.addEventListener("click", () => {
@@ -34,7 +35,7 @@ canvas.addEventListener("mousedown", (e) => {
 			a.newStartPoint(a.grid[x][y]);
 		case "destination":
 			if (a.grid[x][y] != a.start) {
-				a.target.color = "#000000";
+				a.target.color = "#ffffff";
 				a.target = a.grid[x][y];
 				a.target.color = "#0000ff";
 			}
@@ -42,4 +43,5 @@ canvas.addEventListener("mousedown", (e) => {
 	}
 
 	a.draw();
+	wallRadio.checked = true;
 });
