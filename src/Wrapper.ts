@@ -151,7 +151,11 @@ export class Wrapper {
 		for (let i = 0; i < amountOfWalls; i++) {
 			const r1 = Math.floor(Math.random() * this.rows - 1) + 1;
 			const r2 = Math.floor(Math.random() * this.rows - 1) + 1;
-			if (a.grid[r1][r2] != this.start && a.grid[r1][r2] != this.target) {
+			if (
+				a.grid[r1][r2] != this.start &&
+				a.grid[r1][r2] != this.target &&
+				!a.grid[r1][r2].isWall
+			) {
 				a.grid[r1][r2].makeWall();
 			} else {
 				i++;
@@ -161,11 +165,12 @@ export class Wrapper {
 	}
 }
 export function getDistance(cell1: Cell, cell2: Cell): number {
-	if (!diagonalsCheckbox.value) {
-		let addent1 = Math.pow(cell1.x - cell2.x, 2);
-		let addent2 = Math.pow(cell1.y - cell2.y, 2);
-		return Math.sqrt(addent1 + addent2);
-	} else {
-		return Math.abs(cell1.x - cell2.x) + Math.abs(cell1.y - cell2.y);
-	}
+	// if (a.allowDiagonals) {
+	// 	let addent1 = Math.pow(cell1.x - cell2.x, 2);
+	// 	let addent2 = Math.pow(cell1.y - cell2.y, 2);
+	// 	return Math.sqrt(addent1 + addent2);
+	// } else {
+	// 	return Math.abs(cell1.x - cell2.x) + Math.abs(cell1.y - cell2.y);
+	// }
+	return Math.abs(cell1.x - cell2.x) + Math.abs(cell1.y - cell2.y);
 }
